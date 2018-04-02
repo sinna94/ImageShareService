@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,15 +28,21 @@
 			</form>
 			<div class="login-join">
 				<p>계정이 없으신가요?
-					<a href="javascript:void(0);" onclick="test();">가입하기</a>
+					<a href="javascript:void(0);" onclick="changeLoginSignin();">가입하기</a>
 				</p>
 			</div>
 		</div>
 		<div class="signin">
-		가입 내용
+		<form class="form-signin" method="post" action="Signin_c.jsp">
+			<input type="email" name="email" class="form-control" placeholder="이메일 주소" required autofocus>
+			<input type="password" name="password" class="form-control" placeholder="비밀번호" required>
+			<input type="password" name="passwordCheck" class="form-control" placeholder="비밀번호 확인" required>
+			<input type="text" name="nickname" class="form-control" placeholder="닉네임" required>
+			<button class="btn btn-primary" type="submit">가입</button>
+		</form>
 		<div class="signin-login">
 				<p>계정이 있으신가요?
-					<a href="javascript:void(0);" onclick="test();">로그인</a>
+					<a href="javascript:void(0);" onclick="changeLoginSignin();">로그인</a>
 				</p>
 			</div>
 		</div>

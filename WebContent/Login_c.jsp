@@ -36,13 +36,12 @@
 		switch (rs.getInt("count(*)")){
 		case 0:
 			%>
-			로그인 실패
+			<script>alert("이메일 또는 비밀번호를 확인해주세요.");</script>
+			<script>history.back(-1);</script>
 			<%
 		break;
 		case 1:
-			%>
-			로그인 성공
-			<%
+			response.sendRedirect("account.jsp");
 			break;
 			default:
 				break;

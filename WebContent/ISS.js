@@ -2,9 +2,11 @@ function changeLoginSignin() {
     if ($(".login").css("display") != "none") {
     	$(".login").hide();
         $(".signin").show();
+        document.title = "회원가입";
     } else {
     	$(".login").show();
         $(".signin").hide();
+        document.title = "로그인";
     }
 };
 

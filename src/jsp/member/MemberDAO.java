@@ -61,4 +61,37 @@ public class MemberDAO {
 		}
 		return 0;
 	}
+
+	public boolean login (String email, String password) {
+		DBConnection db = new DBConnection();
+		String query = "select count(*) from Users where email = '" 
+		+ email + "' and password = '" 
+		+ password + "';";
+		
+		ResultSet rs = null;
+		
+		try{
+			rs = db.getQueryResult(query);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try {
+			if(rs.next()){
+				switch (rs.getInt("count(*)")){
+				case 0:
+					return false;
+				case 1:
+					return true;
+				default:
+					break;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 }

@@ -94,4 +94,22 @@ public class MemberDAO {
 		
 		return false;
 	}
+
+	public int signup(String email, String password, String nickname) {
+		DBConnection db = new DBConnection();
+		String query ="INSERT INTO Users values ('" 
+		+ email
+		+ "', '" + password
+		+"', '" + nickname + "');";
+		
+		int result = 0;
+		
+		try{
+			result = db.noExcuteQuery(query);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

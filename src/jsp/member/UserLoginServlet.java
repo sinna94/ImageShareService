@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/UserLoginServlet")
 
@@ -25,6 +26,8 @@ public class UserLoginServlet extends HttpServlet{
 		PrintWriter out = response.getWriter();
 		
 		if(result) {
+			HttpSession session = request.getSession();
+			session.setAttribute("id", email);
 			response.sendRedirect("account.jsp");
 		}
 		else {

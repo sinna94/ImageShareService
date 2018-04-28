@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,9 +18,14 @@
 <link rel="stylesheet" href="ISS.css">
 <script src="ISS.js"></script>
 
-
 </head>
 <body>
+<%
+	String id ="";
+	id = (String) session.getAttribute("id");
+	
+	if(id == null || id.equals("")){
+ %>
 	<div class="container">
 		<div class="login">
 			<form class="form-login" method="post" action="UserLoginServlet">
@@ -47,5 +55,11 @@
 			</div>
 		</div>
 	</div>
+<%
+		} else{
+			response.sendRedirect("account.jsp");
+		}
+	
+%>
 </body>
 </html>

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ page import="jsp.member.MemberBean" %>
+<%@ page import="jsp.member.MemberDAO" %>
+<%@ page import="java.io.*" %>
+<%@page import="java.awt.image.BufferedImage"%>
+<%@page import="javax.imageio.ImageIO"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,14 +13,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>title</title>
 
-<link rel="stylesheet" href="css/ISS.css">
-<script src="js/ISS_private_page.js"></script>
-
 <!--��Ʈ��Ʈ��-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="ISS_private_page.css">
+<script src="ISS_private_page.js"></script>
+
+<%
+	String account = (String) session.getAttribute("id");
+	MemberBean member = new MemberBean();
+	member = new MemberDAO().getMember(account);
+%>
 
 </head>
 <body>
@@ -54,13 +65,40 @@
 			<div class="col-xs-12 col-sm-12">
 				<p class="pull-right visible-xs">
 				</p>
-				<div class="jumbotron">
+				<!-- profile -->
+				<div class="jumbotron profile">
 					<div class="row">
-						<div class="col-xs-4 col-lg-4">
-							<img src="..." class="img-responsive" alt="프로필 이미지">
+						<div class="col-xs-5 col-lg-5">
+						<% //if(member.getImage() == null){ %>
+							<!-- <img src="profile.png" class="img-responsive img-circle" id="profile-img" alt="프로필 이미지">
+							--><%//} else{
+								
+									InputStream in = member.getImage().getBinaryStream();
+									BufferedImage bimg = ImageIO.read(in);
+									in.close();
+									
+									ByteArrayOutputStream baos = new ByteArrayOutputStream();
+									ImageIO.write(bimg, "jpg", baos);
+									baos.flush();
+									byte[] imageInByteArray = baos.toByteArray();
+									baos.close();
+									String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
+									out.print("<img src='data:x-image/jpg;base64,"+ b64+"' class='img-responsive img-circle' alt='프로필 이미지'>");
+								
+							//}
+						%>
 						</div>
 						<div class="col-xs-3 col-lg-6">
-							<p>프로필</p>
+							<div id="profile">
+								<h4 id="profile-nick">닉네임</h4>
+								<p id="profile-intro">소개</p>
+							</div>
+						</div>
+						<div class="col-xs-1 col-lg-1">
+							<button type="button" class="btn btn-defalut">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							Upload
+							</button>
 						</div>
 					</div>
 				</div>

@@ -3,6 +3,8 @@ package jsp.member;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.websocket.Session;
+
 import jsp.util.DBConnection;
 
 public class MemberDAO {
@@ -111,5 +113,29 @@ public class MemberDAO {
 		}
 		
 		return result;
+	}
+	
+	public MemberBean getMember(String id) {
+		DBConnection db = new DBConnection();
+		
+		String query = "select nickname, image, profile.profile " + 
+				"from profile " + 
+				"where email = " + "'" + id + "';";
+				
+		MemberBean member = new MemberBean();
+		
+		try {
+			ResultSet rs;
+			rs = db.getQueryResult(query);
+			if(rs.next()) {
+				member.setNickname(rs.getString("nickname"));
+				member.setImage(rs.getBlob("image"));
+				member.setIntro(rs.getString("profile"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return member;
 	}
 }

@@ -1,7 +1,9 @@
 @CHARSET "utf-8";
 body {
-    padding: 100px 0px 40px 0px;
-    margin-top: 50px;
+    padding: 75px 0px 40px 0px;
     background-color: #fafafaaa;
 }
 
+.profile{
+	padding: 10px 20px 0px 20px;
+}

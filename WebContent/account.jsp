@@ -69,9 +69,9 @@
 				<div class="jumbotron profile">
 					<div class="row">
 						<div class="col-xs-5 col-lg-5">
-						<% //if(member.getImage() == null){ %>
+						<% if(member.getImage() == null){ %>
 							<!-- <img src="profile.png" class="img-responsive img-circle" id="profile-img" alt="프로필 이미지">
-							--><%//} else{
+							--><%} else{
 								
 									InputStream in = member.getImage().getBinaryStream();
 									BufferedImage bimg = ImageIO.read(in);
@@ -85,13 +85,21 @@
 									String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
 									out.print("<img src='data:x-image/jpg;base64,"+ b64+"' class='img-responsive img-circle' alt='프로필 이미지'>");
 								
-							//}
+							}
 						%>
 						</div>
 						<div class="col-xs-3 col-lg-6">
 							<div id="profile">
-								<h4 id="profile-nick">닉네임</h4>
-								<p id="profile-intro">소개</p>
+								<% 
+								String nickname = member.getNickname();
+								out.print("<h2 id='profile-nick'>" + nickname + "</h2>");
+								String intro = member.getIntro();
+								if(intro == null){
+									out.print("<p id='profile-intro'>" + nickname + " 입니다." + "</p>");
+								} else{
+									out.print("<p id='profile-intro'>" + member.getIntro() + "</p>");
+								}
+								%>
 							</div>
 						</div>
 						<div class="col-xs-1 col-lg-1">

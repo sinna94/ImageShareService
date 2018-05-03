@@ -1,4 +1,4 @@
-package jsp.member;
+package member;
 
 import java.sql.Blob;
 

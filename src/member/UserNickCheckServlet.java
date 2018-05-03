@@ -1,4 +1,4 @@
-package jsp.member;
+package member;
 
 import java.io.IOException;
 
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/UserEmailCheckServlet")
+@WebServlet("/UserNickCheckServlet")
 
-public class UserEmailCheckServlet extends HttpServlet{
+public class UserNickCheckServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
-		String email = request.getParameter("email");
-		response.getWriter().write(new MemberDAO().emailCheck(email) + "");
+		String nickname = request.getParameter("nickname");
+		response.getWriter().write(new MemberDAO().nicknameCheck(nickname) + "");
 	}
 
 }

@@ -1,108 +1,31 @@
-function changeLoginSignin() {
-    if ($(".login").css("display") != "none") {
-    	$(".login").hide();
-        $(".signin").show();
-        document.title = "회원가입";
-    } else {
-    	$(".login").show();
-        $(".signin").hide();
-        document.title = "로그인";
-    }
-};
-
-var ckId = false;
-var ckIdC = false;
-var ckPw = false;
-var ckNick = false;
-
-function checkEmail(){	
-	var regex=/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-	var email = $('#email').val();
+function layer_popup(){
+	document.title = "업로드";
 	
-	if(email.match(regex)){
-	$.ajax({
-		type : 'POST',
-		url : './UserEmailCheckServlet',			
-		data:{
-			email : email
-		},
-		success : function(result){
-			if(result == 1){
-				$("#email").css("background-color", "#69fd1f");
-				ckId = true;
-				ckIdC = true;
-			}
-			else{
-				$("#email").css("background-color", "#ec5252");
-				ckId = false;
-			}
+	var $el = $('.upload-layer');        //레이어의 id를 $el 변수에 저장
+    var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+
+    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+    var left = ( $(window).scrollLeft() + ( $(window).width() - $('.upload-layer').width()) / 2 );
+    var top = ( $(window).scrollTop() + ( $(window).height() - $('.upload-layer').height()) / 2 );
+
+    //$('.upload-layer').css({'left':left,'top':top, 'position':'absolute'});	
+}
+
+function addPreview(input){
+	if(input[0].files){
+		for(var fileindex=0;fileindex < input[0].files.length; fileindex++){
+			var file = input[0].files[fileindex];
+			var reader = new FileReader();
+			
+			reader.onload = function(img){
+				$(".preview").css({'background-image': URL(img.target.result)});
+				//$(".preview").append("<img src=\"" + img.target.result + "\"" + "class='img-responsive image'" + "\/>");
+			};
+			reader.readAsDataURL(file);
 		}
-	})
 	}
-	else{
-		$("#email").css("background-color", "#ffffff");
-		ckIdC = false;
-	}
-}
-
-function checkPassword(){
-	var password = $('#password').val();
-	var passwordc = $('#passwordc').val();
-	
-	if(password != "" && passwordc != ""){	
-	if(password == passwordc){
-		$("#passwordc").css("background-color", "#69fd1f");
-		ckPw = true;
-	}
-	else{
-		$("#passwordc").css("background-color", "#ec5252");
-		ckPw = false;
-	}
-	}
-}
-
-function checkNickname(){	
-	var nickname = $('#nickname').val();
-
-	if(nickname != ""){
-	$.ajax({
-		type : 'POST',
-		url : './UserNickCheckServlet',			
-		data:{
-			nickname : nickname
-		},
-		success : function(result){
-			if(result == 1){
-				$("#nickname").css("background-color", "#69fd1f");
-				ckNick = true;
-			}
-			else{
-				$("#nickname").css("background-color", "#ec5252");
-				ckNick = false;
-			}
-		}
-	})
-	}
-}
-
-function checkInfo(){
-	if(!ckIdC){
-		alert("이메일을 다시 확인해주세요.");
-		return false;
-	}
-	if(!ckId){
-		alert("중복되는 이메일이 있습니다.");
-		return false;
-	}
-	if(!ckPw){
-		alert("비밀번호를 다시 확인해주세요.");
-		return false;
-	}
-	if(!ckNick){
-		alert("중복되는 닉네임이 있습니다.");
-		return false;
-	}
-	if(ckId && ckIdC && ckPw && ckNick){
-		return true;
+	else {
+		alert("incalid file input");
 	}
 }

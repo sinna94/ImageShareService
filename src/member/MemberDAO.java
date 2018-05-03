@@ -1,11 +1,11 @@
-package jsp.member;
+package member;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.websocket.Session;
 
-import jsp.util.DBConnection;
+import util.DBConnection;
 
 public class MemberDAO {
 	public int emailCheck(String email){		
@@ -118,8 +118,8 @@ public class MemberDAO {
 	public MemberBean getMember(String id) {
 		DBConnection db = new DBConnection();
 		
-		String query = "select nickname, image, profile.profile " + 
-				"from profile " + 
+		String query = "select nickname, profile_image, profile " + 
+				"from Users " + 
 				"where email = " + "'" + id + "';";
 				
 		MemberBean member = new MemberBean();

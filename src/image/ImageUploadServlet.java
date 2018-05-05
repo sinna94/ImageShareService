@@ -31,16 +31,13 @@ public class ImageUploadServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
+		
 		String account = (String) session.getAttribute("id");
-		/*
-		 * String file = request.getParameter("filename"); String content =
-		 * request.getParameter("content");
-		 */
+		String nick = (String) session.getAttribute("nick");
 
 		String root = request.getSession().getServletContext().getRealPath("/");
 		
-		String savePath = root + "upload\\" + account + "\\";
-
+		String savePath = root + "upload/" + nick + "/";
 		File desti = new File(savePath);
 		
 		if(!desti.exists()) {
@@ -93,12 +90,10 @@ public class ImageUploadServlet extends HttpServlet {
 			}
 			DBConnection db = new DBConnection();
 
-			String query = "insert into IIS.Image(user_id, date, path) values('" + account + "', '"
+			String query = "insert into IIS.Image(user_id, date, path, content) values('" + nick + "', '"
 					+ simDf.format(new Date(currentTime)) + "', '" 
-					+ newFileName + "');";
-
-			System.out.println(query);
-			
+					+ newFileName + "','" + multi.getParameter("content") +"');";
+						
 			int result;
 
 			result = db.noExcuteQuery(query);
@@ -107,7 +102,7 @@ public class ImageUploadServlet extends HttpServlet {
 			e.printStackTrace();
 			out.println("<script> alert('업로드 실패');</script>");
 		} finally {
-			response.sendRedirect("account.jsp");
+			response.sendRedirect("account.jsp?id=" + nick);
 		}
 	}
 }

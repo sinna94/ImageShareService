@@ -2,9 +2,12 @@
 	pageEncoding="utf-8"%>
 <%@ page import="member.MemberBean"%>
 <%@ page import="member.MemberDAO"%>
+<%@ page import="util.DBConnection"%>
+
 <%@ page import="java.io.*"%>
 <%@page import="java.awt.image.BufferedImage"%>
 <%@page import="javax.imageio.ImageIO"%>
+<%@page import="java.sql.ResultSet"%>
 
 <!DOCTYPE html>
 <html>
@@ -31,9 +34,20 @@
 	if (account == null || account.equals("")) {
 		response.sendRedirect("index.jsp");
 	}
+	
+	String nick = (String) request.getParameter("id");
+	
+	if (nick == null){
+		nick = (String) session.getAttribute("nick");
+	}
 
 	MemberBean member = new MemberBean();
-	member = new MemberDAO().getMember(account);
+	member = new MemberDAO().getMember(nick, 1);
+	
+	if(member.getNickname() == null){
+		
+	}
+	else{
 %>
 
 </head>
@@ -118,6 +132,11 @@
 								%>
 							</div>
 						</div>
+						
+						<%
+							if (session.getAttribute("nick").equals(nick)){
+						%>
+						
 						<div class="col-xs-2 col-xs-offset-2 col-md-2 col-md-offset-4">
 							<button type="button" class="btn btn-defalut"
 								onclick="layer_popup();">
@@ -163,17 +182,33 @@
 								</div>
 							</div>
 						</div>
+						<%} %>
 					</div>
 				</div>
+				<!-- image  -->
 				<div class="row">
-					<div class="col-xs-4 col-lg-4">
-						<p>사진</p>
-						<a href="#" class="thumbnail"> <img src="..." alt="...">
-						</a>
-					</div>
+					
+					<%
+						DBConnection db = new DBConnection();
+						
+						ResultSet rs;
+						String query = "Select path from Image Where user_id = '" +  nick + "' order by id desc;";
+						
+						try {
+							rs = db.getQueryResult(query);
+							while(rs.next()) {
+								out.print("<div class='col-xs-4'><a href='#' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
+							}
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+				
+					%>
+					
 				</div>
 			</div>
 		</div>
 	</div>
+	<%} %>
 </body>
 </html>

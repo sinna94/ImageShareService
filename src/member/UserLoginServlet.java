@@ -21,14 +21,15 @@ public class UserLoginServlet extends HttpServlet{
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		boolean result = new MemberDAO().login(email, password);
-		
+		String result = new MemberDAO().login(email, password);
+		System.out.println(result);
 		PrintWriter out = response.getWriter();
 		
-		if(result) {
+		if(result != "") {
 			HttpSession session = request.getSession();
 			session.setAttribute("id", email);
-			response.sendRedirect("account.jsp");
+			session.setAttribute("nick", result);
+			response.sendRedirect("account.jsp?id=" + result);
 		}
 		else {
 			

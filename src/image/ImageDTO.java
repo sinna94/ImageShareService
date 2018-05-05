@@ -2,7 +2,7 @@ package image;
 
 public class ImageDTO {
 	private int id;
-	private String email;
+	private String user_id;
 	private String date;
 	private int like;
 	private String path;
@@ -14,11 +14,11 @@ public class ImageDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getEmail() {
-		return email;
+	public String getUser_id() {
+		return user_id;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 	public String getDate() {
 		return date;

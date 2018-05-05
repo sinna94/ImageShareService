@@ -14,16 +14,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>title</title>
 
 <!--��Ʈ��Ʈ��-->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="ISS_private_page.css">
 <script src="ISS_private_page.js"></script>
@@ -49,6 +48,8 @@
 	}
 	else{
 %>
+
+<title><%=nick %></title>
 
 </head>
 <body>
@@ -86,7 +87,7 @@
 
 	<div class="container">
 		<div class="row row-offcanvas row-offcanvas-right">
-			<div class="col-xs-12 col-lg12">
+			<div class="col-xs-12 ">
 				<p class="pull-right visible-xs"></p>
 				<!-- profile -->
 				<div class="jumbotron profile">
@@ -192,12 +193,12 @@
 						DBConnection db = new DBConnection();
 						
 						ResultSet rs;
-						String query = "Select path from Image Where user_id = '" +  nick + "' order by id desc;";
+						String query = "Select id, path from Image Where user_id = '" +  nick + "' order by id desc;";
 						
 						try {
 							rs = db.getQueryResult(query);
 							while(rs.next()) {
-								out.print("<div class='col-xs-4'><a href='#' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
+								out.print("<div class='col-xs-4'><a href='picture.jsp?id="+ rs.getInt("id") + "' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
 							}
 						}catch(Exception e) {
 							e.printStackTrace();

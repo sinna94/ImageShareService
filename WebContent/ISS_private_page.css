@@ -8,39 +8,33 @@ body {
 .profile {
 	padding: 10px 20px 10px 20px;
 	min-width: 360px;
+	
 }
 
-.profile-imgae{
-	max-height: 200px;
-	padding-bottom: 10px;
+.image-wrapper{
+	position: relative;
+	overflow: hidden;
+	padding-top: 100%;
+
 }
 
-.dim-layer {
-	display: none;
-	position: fixed;
-	_position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 100;
-}
-
-.dimBg {
+.profile-image{
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-	opacity: .5;
-	filter: alpha(opacity = 50);
+	top: 0; left: 0; right: 0; bottom: 0;
+	max-height: 600px
+
 }
 
-.upload-layer {
-	display: block;
-	background-color: #ffffff;
-	max-height:500px;
-	margin-top: 75px;
-	min-width: 360px;
+#theparent{
+	width : 100%;
+}
+
+#controls a{
+	display:hidden;
+	padding: 0 5%;
+	height: 50px;
+	line-height: 50px;
+	font-size: 20px;
+	font-weight: 300;
+	color: #888
 }

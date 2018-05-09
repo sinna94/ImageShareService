@@ -20,12 +20,17 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+	href="jquery.guillotine.css">
+<link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet'>
+
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="jquery.guillotine.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="ISS_private_page.css">
-<script src="ISS_private_page.js"></script>
+<link rel="stylesheet" href="ISS_private_page.css?ver=1">
+<script src="ISS_private_page.js?ver=1"></script>
 
 <%
 	String account = (String) session.getAttribute("id");
@@ -93,34 +98,29 @@
 				<div class="jumbotron profile">
 					<div class="row">
 						<!-- profile image -->
+						
 						<div class="col-xs-12 col-md-5">
-							<%
-								if (member.getImage() == null) {
+							<div class="image-wrapper">
+								<%
+									if (member.getImage() == null) {
+								%>
+								<img src="profile.png" class="img-circle img-responsive" alt="프로필 이미지">
+								
+								<%
+									} else {
+	
+										String path = member.getImage();
+										String src = "upload/" + member.getNickname() + "/" + path;
+										out.print("<img src='" + src
+												+ "' class='img-responsive img-circle profile-image' alt='프로필 이미지'>");
+	
+									}
 							%>
-							<img src="profile.png" class="img-responsive img-circle" id="profile-img" alt="프로필 이미지">
-							
-							<%
-								} else {
-
-									InputStream in = member.getImage().getBinaryStream();
-									BufferedImage bimg = ImageIO.read(in);
-									in.close();
-
-									ByteArrayOutputStream baos = new ByteArrayOutputStream();
-									ImageIO.write(bimg, "jpg", baos);
-									baos.flush();
-									byte[] imageInByteArray = baos.toByteArray();
-									baos.close();
-									String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
-									out.print("<img src='data:x-image/jpg;base64," + b64
-											+ "' class='img-responsive img-circle profile-image' alt='프로필 이미지'>");
-
-								}
-							%>
+							</div>
 						</div>
 						<!-- profile intro -->
 						<div class="col-xs-6 col-md-6">
-							<div id="profile">
+							<div class="profile">
 								<%
 									String nickname = member.getNickname();
 									out.print("<h2 id='profile-nick'>" + nickname + "</h2>");
@@ -135,51 +135,59 @@
 						</div>
 						
 						<%
+						//로그인한 사용자의 페이지 인지 체크
 							if (session.getAttribute("nick").equals(nick)){
 						%>
 						
 						<div class="col-xs-2 col-xs-offset-2 col-md-2 col-md-offset-4">
-							<button type="button" class="btn btn-defalut"
-								onclick="layer_popup();">
+							<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#upload">
 								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 								Upload
 							</button>
 						</div>
-						<!-- upload layer pop up -->
-						<div class="row">
-							<div class="dim-layer">
-								<div class="dimBg"></div>
-								<div
-									class="upload-layer col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
-
-									<div class="pip-container">
-
-										<div class="pop-conts">
-											<form action="ImageUploadServlet" method="post" enctype="multipart/form-data">
-												<div class="row">
-													<div class="col-xs-12 col-md-12">
-														<input class="form-control" type="file" accept="image/*" name="filename" />
-													</div>
-												</div>
-												
-												<div class="row">
-													<div class="col-xs-12">
-														<div class="content">
-															<textarea id="content" class="form-control" rows="10" name="content"></textarea>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-6">
-														<button class="btn btn-default form-control" id="btn-cancel">취소</button>
-													</div>
-													<div class="col-xs-6">
-														<button class="btn btn-default form-control" type="submit">등록</button>
-													</div>
-												</div>
-											</form>
-										</div>
+						<!-- upload modal -->
+						<div class="modal fade" id="upload" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">이미지 업로드</h4>
 									</div>
+									<form action="ImageUploadServlet" method="post"
+										enctype="multipart/form-data">
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-xs-12">
+													<input class="form-control" type="file" id="file" accept="image/*" name="filename" />
+												</div>
+												<div class="col-xs-12">
+													<div id="theparent">
+														<img id="thepicture" >
+													</div>
+													<div id='controls' class='hidden'>
+														<a href='#' id='rotate_left' title='Rotate left'><i class='fa fa-rotate-left'></i></a> 
+														<a href='#' id='zoom_out' title='Zoom out'><i class='fa fa-search-minus'></i></a>
+														<a href='#' id='fit' title='Fit image'><i class='fa fa-arrows-alt'></i></a> 
+														<a href='#' id='zoom_in' title='Zoom in'><i class='fa fa-search-plus'></i></a> 
+														<a href='#' id='rotate_right' title='Rotate right'><i class='fa fa-rotate-right'></i></a>
+													</div>
+												</div>
+											</div>
+												<div class="col-xs-12">
+													<div class="content">
+														<textarea id="content" class="form-control" rows="10" name="content"></textarea>
+													</div>
+					
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+											<button type="button" class="btn btn-primary" onclick=""> 등록 </button>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>

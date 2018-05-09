@@ -1,0 +1,22 @@
+@CHARSET "utf-8";
+body {
+    padding: 80px 0px 40px 0px;
+    background-color: #fafafaaa;
+}
+
+.image{
+	margin-bottom: 10px;
+}
+
+.content{
+	border: 1px outset #c7c7c7;
+}
+
+.nickname{
+	padding: 5px, 0px, 5px, 0px;
+	border-bottom: 1px solid #c7c7c7aa;
+}
+
+.nickname h3{
+	
+}

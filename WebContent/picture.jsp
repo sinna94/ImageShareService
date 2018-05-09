@@ -10,14 +10,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>title</title>
 
-<link rel="stylesheet" href="css/ISS.css">
+<!--��Ʈ��Ʈ��-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="ISS_Image.css">
 <script src="js/ISS.js"></script>
 
-<!--��Ʈ��Ʈ��-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<%
+	String account = (String) session.getAttribute("id");
+
+	if (account == null || account.equals("")) {
+		response.sendRedirect("index.jsp");
+	}
+%>
 
 </head>
 <body>
@@ -56,13 +64,13 @@
 	<div class="container">
 		<div>
 			<div class="row">
-				<div class="col-xs-12 col-md-7">
+				<div class="col-xs-12 col-md-7 image center-block">
 				<% 
 					String id = (String) request.getParameter("id");
 					
 					ImageDTO image = new ImageDAO().getImage(id); 
 					
-					out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' alt='사진'>");
+					out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' class='img-responsive' alt='사진'>");
 				%>
 				</div>	
 				<div class="col-xs-12 col-md-5">

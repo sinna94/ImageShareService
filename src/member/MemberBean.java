@@ -6,7 +6,7 @@ public class MemberBean {
 	private String email;
 	private String password;
 	private String nickname;
-	private Blob image;
+	private String image;
 	private String intro;
 	
 	public String getEmail() {
@@ -27,11 +27,11 @@ public class MemberBean {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public Blob getImage() {
+	public String getImage() {
 		return image;
 	}
-	public void setImage(Blob image) {
-		this.image = image;
+	public void setImage(String string) {
+		this.image = string;
 	}
 	public String getIntro() {
 		return intro;

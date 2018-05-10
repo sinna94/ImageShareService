@@ -117,7 +117,7 @@ public class MemberDAO {
 			if (rs.next()) {
 				member.setEmail(rs.getString("email"));
 				member.setNickname(rs.getString("nickname"));
-				member.setImage(rs.getBlob("image"));
+				member.setImage(rs.getString("profile_image"));
 				member.setIntro(rs.getString("profile"));
 			}
 		} catch (Exception e) {

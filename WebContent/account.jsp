@@ -93,29 +93,20 @@
 				<div class="jumbotron profile">
 					<div class="row">
 						<!-- profile image -->
-						<div class="col-xs-12 col-md-5">
+						<div class="col-xs-5 col-md-5">
 							<%
-								if (member.getImage() == null) {
-							%>
-							<img src="profile.png" class="img-responsive img-circle" id="profile-img" alt="프로필 이미지">
-							
-							<%
-								} else {
-
-									InputStream in = member.getImage().getBinaryStream();
-									BufferedImage bimg = ImageIO.read(in);
-									in.close();
-
-									ByteArrayOutputStream baos = new ByteArrayOutputStream();
-									ImageIO.write(bimg, "jpg", baos);
-									baos.flush();
-									byte[] imageInByteArray = baos.toByteArray();
-									baos.close();
-									String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
-									out.print("<img src='data:x-image/jpg;base64," + b64
-											+ "' class='img-responsive img-circle profile-image' alt='프로필 이미지'>");
-
-								}
+									if (member.getImage() == null) {
+								%>
+								<img src="profile.png" class="img-circle img-responsive profile-image" alt="프로필 이미지">
+								
+								<%
+									} else {
+	
+										String path = member.getImage();
+										String src = "upload/" + member.getNickname() + "/" + path;
+										out.print("<img src='" + src
+												+ "' class='img-responsive img-circle profile-image' alt='프로필 이미지'>");
+									}
 							%>
 						</div>
 						<!-- profile intro -->

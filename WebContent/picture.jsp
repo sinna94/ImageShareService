@@ -10,14 +10,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>title</title>
 
-<link rel="stylesheet" href="css/ISS.css">
-<script src="js/ISS.js"></script>
-
 <!--��Ʈ��Ʈ��-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="ISS_picture.css?ver1">
+<script src="js/ISS.js"></script>
+
+<%
+	String account = (String) session.getAttribute("id");
+	String id = (String) request.getParameter("id");
+	
+	if (account == null || account.equals("")) {
+		response.sendRedirect("index.jsp");
+	}
+	else if (id == null || Integer.parseInt(id) < 0){
+		response.sendRedirect("account.jsp");
+		return;
+	}
+	
+	
+%>
 
 </head>
 <body>
@@ -56,16 +71,16 @@
 	<div class="container">
 		<div>
 			<div class="row">
-				<div class="col-xs-12 col-md-7">
-				<% 
-					String id = (String) request.getParameter("id");
-					
-					ImageDTO image = new ImageDAO().getImage(id); 
-					
-					out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' alt='사진'>");
-				%>
-				</div>	
-				<div class="col-xs-12 col-md-5">
+				<div class="col-xs-12 image-content">
+					<div class="image">
+						<% 
+							ImageDTO image = new ImageDAO().getImage(id); 
+							
+							out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' class='img-responsive' alt='사진'>");
+						%>
+					</div>	
+				</div>
+				<div class="col-xs-12 ">
 					<div class="content">
 						<div class="nickname">
 							<%
@@ -78,8 +93,26 @@
 							out.print(image.getContent());
 							%>
 						</div>
-					</div>
-					<div class="comment">
+					
+						<div class="comment">
+							<jsp:include page="commentServlet">
+								<jsp:param name="id" value="<%=id %>"/>
+							</jsp:include>
+						</div>
+						<div class="inputComment">
+							<form action="commentInputServlet" method="post" onsubmit="return commentCheck();">
+								<input name="id" type="hidden" value="<%=id%>">
+								<div class="row">
+									<div class="col-xs-10">
+										
+										<input type="text" name="comment" class="form-control" id="comment" required>
+									</div>
+									<div class="col-xs-2">
+										<button type="submit" class="btn-primary">등록</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

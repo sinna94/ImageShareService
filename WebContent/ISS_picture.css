@@ -1,0 +1,32 @@
+@CHARSET "utf-8";
+
+body {
+	padding: 75px 0px 40px 0px;
+	background-color: #f9f5f5;
+}
+
+.image img{
+	max-height: 600px;
+	margin-bottom: 10px;
+}
+
+.content{
+	padding: 5px;
+	border: 1px solid #c7c7c7;
+	height: 100%;
+	background-color: #fafafa;
+}
+
+.nickname{
+	padding: 0px 10px 0px 10px;
+	border-bottom : 3px solid #c1e1ff;
+}
+
+.nickname h3{
+	text-align: right;
+}
+
+.nickname h3 a{
+	color: black;
+}
+

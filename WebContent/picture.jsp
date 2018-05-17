@@ -16,8 +16,8 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="ISS_picture.css?ver1">
-<script src="js/ISS.js"></script>
+<link rel="stylesheet" href="ISS_picture.css?ver=1">
+<script src="ISS_picture.js?ver=1"></script>
 
 <%
 	String account = (String) session.getAttribute("id");
@@ -93,7 +93,11 @@
 							out.print(image.getContent());
 							%>
 						</div>
-					
+						<div class="like-wrapper">
+							<jsp:include page="likeServlet">
+								<jsp:param name="id" value="<%=id %>"/>
+							</jsp:include>
+						<div>
 						<div class="comment">
 							<jsp:include page="commentServlet">
 								<jsp:param name="id" value="<%=id %>"/>
@@ -101,7 +105,7 @@
 						</div>
 						<div class="inputComment">
 							<form action="commentInputServlet" method="post" onsubmit="return commentCheck();">
-								<input name="id" type="hidden" value="<%=id%>">
+								<input name="id" type="hidden" id="image-id" value="<%=id%>">
 								<div class="row">
 									<div class="col-xs-10">
 										

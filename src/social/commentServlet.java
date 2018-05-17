@@ -1,4 +1,4 @@
-package comment;
+package social;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -92,7 +92,7 @@
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">프로필 사진으로 지정</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="SetProfileImageServlet?id=<%=image.getPath() %>">프로필 사진으로 지정</a></li>
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">사진 삭제</a></li>
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">앨범으로 추가</a></li>
 						</ul>

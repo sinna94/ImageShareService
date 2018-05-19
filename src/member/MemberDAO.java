@@ -126,4 +126,16 @@ public class MemberDAO {
 
 		return member;
 	}
+	
+	public void setProfileImage(String image, String nickname) {
+		DBConnection db = new DBConnection();
+		
+		String query = "UPDATE `IIS`.`Users` SET `profile_image`='" + image + "' WHERE `Nickname` = '" + nickname + "';";
+		
+		try {
+			db.noExcuteQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

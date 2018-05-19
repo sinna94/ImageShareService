@@ -94,9 +94,7 @@ public class ImageUploadServlet extends HttpServlet {
 					+ simDf.format(new Date(currentTime)) + "', '" 
 					+ newFileName + "','" + multi.getParameter("content") +"');";
 						
-			int result;
-
-			result = db.noExcuteQuery(query);
+			db.noExcuteQuery(query);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -63,7 +63,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Brand</a>
+				<a class="navbar-brand" href="account.jsp">Home</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -178,7 +178,7 @@
 					</div>
 				</div>
 				<!-- image  -->
-				<div class="row">
+				<div class="image-wrapper row">
 					
 					<%
 						DBConnection db = new DBConnection();

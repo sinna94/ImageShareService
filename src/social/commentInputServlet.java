@@ -51,7 +51,7 @@ public class commentInputServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 		
-		
+		response.sendRedirect("picture.jsp?id=" + image_id);
 	}
 
 }

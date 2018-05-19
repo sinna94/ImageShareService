@@ -3,6 +3,7 @@
 body {
 	padding: 75px 0px 40px 0px;
 	background-color: #fafafaaa;
+	min-width: 360px;
 }
 
 .profile {
@@ -42,5 +43,9 @@ body {
 	background-color: #ffffff;
 	max-height:500px;
 	margin-top: 75px;
+	min-width: 360px;
+}
+
+.image-wrapper{
 	min-width: 360px;
 }

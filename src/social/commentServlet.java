@@ -34,15 +34,15 @@ public class commentServlet extends HttpServlet{
 			
 			if(rs.next()) {
 				do{
-					out.write("<div>");
-					out.write("<span>" + rs.getString("nickname") + "</span>");
-					out.write("<span>" + rs.getString("comment") + "</span>");
-					out.write("<span>" + rs.getString("date") + "</span>");
+					out.write("<div class='row comment-line'>");
+					out.write("<div class='col-xs-3 comment-nickname'>" + rs.getString("nickname") + "</div>");
+					out.write("<div class='col-xs-7 comment'>" + rs.getString("comment") + "</div>");
+					out.write("<div class='col-xs-2 date'>" + rs.getString("date") + "</div>");
 					out.write("</div>");
 				} while (rs.next());
 			} else {
-				out.write("<div>");
-				out.write("<span>댓글이 없습니다.</span>");
+				out.write("<div class='comment-wrapper'>");
+				out.write("<span class='comment'>댓글이 없습니다.</span>");
 				out.write("</div>");
 			}
 			

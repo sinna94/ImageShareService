@@ -46,7 +46,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Brand</a>
+				<a class="navbar-brand" href="account.jsp">Home</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -69,58 +69,67 @@
 	</nav>
 
 	<div class="container">
-		<div>
 			<div class="row">
 				<div class="col-xs-12 image-content">
-					<div class="image">
-						<% 
-							ImageDTO image = new ImageDAO().getImage(id); 
+					<% 
+						ImageDTO image = new ImageDAO().getImage(id); 
 							
-							out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' class='img-responsive' alt='사진'>");
-						%>
-					</div>	
-				</div>
-				<div class="col-xs-12 ">
-					<div class="content">
-						<div class="nickname">
-							<%
-							String nick = image.getUser_id();
-							out.print("<h3><a href='account.jsp?id=" + nick + "'>" + nick + "</a></h3>");
-							%>
-						</div>
-						<div class="board">
-							<%
-							out.print(image.getContent());
-							%>
-						</div>
-						<div class="like-wrapper">
-							<jsp:include page="likeServlet">
-								<jsp:param name="id" value="<%=id %>"/>
-							</jsp:include>
-						<div>
-						<div class="comment">
-							<jsp:include page="commentServlet">
-								<jsp:param name="id" value="<%=id %>"/>
-							</jsp:include>
-						</div>
-						<div class="inputComment">
-							<form action="commentInputServlet" method="post" onsubmit="return commentCheck();">
-								<input name="id" type="hidden" id="image-id" value="<%=id%>">
-								<div class="row">
-									<div class="col-xs-10">
-										
-										<input type="text" name="comment" class="form-control" id="comment" required>
-									</div>
-									<div class="col-xs-2">
-										<button type="submit" class="btn-primary">등록</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
+						out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' class='img-responsive' alt='사진'>");
+					%>
 				</div>
 			</div>
+			<div class="row">
+			<div class="content">
+				<div class="row">
+					<div class="like-wrapper col-xs-1">
+						<jsp:include page="likeServlet">
+							<jsp:param name="id" value="<%=id %>"/>
+						</jsp:include>
+					</div>
+					<div class="col-xs-2 col-xs-offset-7 dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="imageMenu" data-toggle="dropdown" aria-expanded="true">
+							Menu
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">프로필 사진으로 지정</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">사진 삭제</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">앨범으로 추가</a></li>
+						</ul>
+					</div>
+				</div>
+					<div class="nickname col-xs-12">
+						<%
+							String nick = image.getUser_id();
+							out.print("<h3><a href='account.jsp?id=" + nick + "'>" + nick + "</a></h3>");
+						%>
+					</div>
+					<div class="board col-xs-12">
+						<%
+							out.print(image.getContent());
+						%>
+					</div>
+					<div class="comment-wrapper col-xs-12">
+						<jsp:include page="commentServlet">
+							<jsp:param name="id" value="<%=id %>"/>
+						</jsp:include>
+					</div>
+					<div class="inputComment">
+						<form action="commentInputServlet" method="post" onsubmit="return commentCheck();">
+							<input name="id" type="hidden" id="image-id" value="<%=id%>">
+							<div class="row">
+								<div class="col-xs-10">
+									<input type="text" name="comment" class="form-control" id="comment" required>
+								</div>
+								<div class="col-xs-2">
+									<button type="submit" class="btn-primary">등록</button>
+								</div>
+							</div>
+						</form>
+					</div>
+			</div>
+			</div>
 		</div>
-	</div>
+	
 </body>
 </html>

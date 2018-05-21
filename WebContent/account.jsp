@@ -128,49 +128,42 @@
 						<%
 							if (session.getAttribute("nick").equals(nick)){
 						%>
-						
 						<div class="col-xs-2 col-xs-offset-2 col-md-2 col-md-offset-4">
-							<button type="button" class="btn btn-defalut"
-								onclick="layer_popup();">
+							<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#upload">
 								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 								Upload
 							</button>
 						</div>
-						<!-- upload layer pop up -->
-						<div class="row">
-							<div class="dim-layer">
-								<div class="dimBg"></div>
-								<div
-									class="upload-layer col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
-
-									<div class="pip-container">
-
-										<div class="pop-conts">
-											<form action="ImageUploadServlet" method="post" enctype="multipart/form-data">
-												<div class="row">
-													<div class="col-xs-12 col-md-12">
-														<input class="form-control" type="file" accept="image/*" name="filename" />
-													</div>
-												</div>
-												
-												<div class="row">
-													<div class="col-xs-12">
-														<div class="content">
-															<textarea id="content" class="form-control" rows="10" name="content"></textarea>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-6">
-														<button class="btn btn-default form-control" id="btn-cancel">취소</button>
-													</div>
-													<div class="col-xs-6">
-														<button class="btn btn-default form-control" type="submit">등록</button>
-													</div>
-												</div>
-											</form>
-										</div>
+						<!-- upload modal -->
+						<div class="modal fade" id="upload" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel">이미지 업로드</h4>
 									</div>
+									<form action="ImageUploadServlet" method="post"	enctype="multipart/form-data">
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-xs-12">
+													<input class="form-control" type="file" id="file" accept="image/*" name="filename" required/>
+												</div>
+												<div class="col-xs-12">
+													<textarea id="content" class="form-control" rows="10" name="content" placeholder="내용 입력"></textarea>											
+												</div>
+												<div class="col-xs-12">
+													<input type="text" id='tag' class="form-control" name="tag" placeholder="ex)#tag#abc">
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+											<button class="btn btn-primary" type="submit"> 등록 </button>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>

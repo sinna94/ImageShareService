@@ -18,13 +18,11 @@ public class likeDAO {
 			if (rs.next()) {
 				query = "delete from IIS.like where image_id = '" + id + "' and user_id = '" + nickname + "';";
 				db.noExcuteQuery(query);
-				System.out.println("취소");
 				return 0;
 				
 			} else {
 				query = "insert into IIS.like (image_id, user_id) values ('" + id + "', '" + nickname + "');";
 				db.noExcuteQuery(query);
-				System.out.println("좋아요");
 				return 1;
 			}
 			

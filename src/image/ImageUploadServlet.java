@@ -93,7 +93,7 @@ public class ImageUploadServlet extends HttpServlet {
 			String query = "insert into IIS.Image(user_id, date, path, content) values('" + nick + "', '"
 					+ simDf.format(new Date(currentTime)) + "', '" 
 					+ newFileName + "','" + multi.getParameter("content") +"');";
-						
+									
 			db.noExcuteQuery(query);
 			
 		} catch (Exception e) {

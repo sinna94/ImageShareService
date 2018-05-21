@@ -98,38 +98,37 @@
 						</ul>
 					</div>
 				</div>
-					<div class="nickname col-xs-12">
-						<%
-							String nick = image.getUser_id();
-							out.print("<h3><a href='account.jsp?id=" + nick + "'>" + nick + "</a></h3>");
-						%>
-					</div>
-					<div class="board col-xs-12">
-						<%
-							out.print(image.getContent());
-						%>
-					</div>
-					<div class="comment-wrapper col-xs-12">
-						<jsp:include page="commentServlet">
-							<jsp:param name="id" value="<%=id %>"/>
-						</jsp:include>
-					</div>
-					<div class="inputComment">
-						<form action="commentInputServlet" method="post" onsubmit="return commentCheck();">
-							<input name="id" type="hidden" id="image-id" value="<%=id%>">
-							<div class="row">
-								<div class="col-xs-10">
-									<input type="text" name="comment" class="form-control" id="comment" required>
-								</div>
-								<div class="col-xs-2">
-									<button type="submit" class="btn-primary">등록</button>
-								</div>
+				<div class="nickname col-xs-12">
+				<%
+					String nick = image.getUser_id();
+					out.print("<h3><a href='account.jsp?id=" + nick + "'>" + nick + "</a></h3>");
+				%>
+				</div>
+				<div class="board col-xs-12">
+					<%
+						out.print(image.getContent());
+					%>
+				</div>
+				<div class="comment-wrapper col-xs-12">
+					<jsp:include page="commentServlet">
+						<jsp:param name="id" value="<%=id %>"/>
+					</jsp:include>
+				</div>
+				<div class="inputComment">
+					<form action="commentInputServlet" method="post" onsubmit="return commentCheck();">
+						<input name="id" type="hidden" id="image-id" value="<%=id%>">
+						<div class="row">
+							<div class="col-xs-10">
+								<input type="text" name="comment" class="form-control" id="comment" required>								
 							</div>
-						</form>
-					</div>
-			</div>
+							<div class="col-xs-2">
+								<button type="submit" class="btn-primary">등록</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	
+	</div>
 </body>
 </html>

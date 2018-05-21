@@ -1,12 +1,15 @@
 package image;
 
+import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import util.DBConnection;;
 
@@ -21,14 +24,28 @@ public class ImageDeleteServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		
 		String image = request.getParameter("id");
-
+		HttpSession session = request.getSession();
+		String nickname = (String) session.getAttribute("nick");
+		String root = request.getSession().getServletContext().getRealPath("/");
+		
 		try {
 			DBConnection db = new DBConnection();
+			
+			String query = "select path from IIS.Image where id =" + image + ";";
+			ResultSet rs = db.getQueryResult(query);
+			
+			if(rs.next()) {
+				String path = rs.getString("path");
+				
+				query = "delete from IIS.Image where id = " + image + ";";
+				
+				db.noExcuteQuery(query);
+				
+				File file = new File(root + "upload/" + nickname + "/" + path);
+				file.delete();
+			}
 
-			String query = "delete from IIS.Image where id = " + image + ";";
-						
-			System.out.println(query);
-			db.noExcuteQuery(query);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

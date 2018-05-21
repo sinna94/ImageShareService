@@ -84,8 +84,8 @@ public class MemberDAO {
 
 	public int signup(String email, String password, String nickname) {
 		DBConnection db = new DBConnection();
-		String query = "INSERT INTO Users values ('" + email + "', '" + password + "', '" + nickname + "');";
-
+		String query = "INSERT INTO Users (email, password, nickname) values ('" + email + "', '" + password + "', '" + nickname + "');";
+		System.out.println(query);
 		int result = 0;
 
 		try {

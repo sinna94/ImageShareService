@@ -27,10 +27,10 @@ public class UserSignupServlet extends HttpServlet{
 		PrintWriter out = response.getWriter();
 		
 		if(result != 0 ) {
-			out.println("<script> alert('회원가입 성공 로그인 해주세요.'); location.replace('./index.html'); </script>");
+			out.println("<script> alert('회원가입 성공 로그인 해주세요.'); location.replace('./index.jsp'); </script>");
 		}
 		else {
-			out.println("<script> alert('회원가입 실패');</script>");
+			out.println("<script> alert('회원가입 실패'); location.replace('./index.jsp'); </script>");
 			
 		}
 	}

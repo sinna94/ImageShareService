@@ -1,0 +1,55 @@
+@CHARSET "utf-8";
+
+body {
+	padding: 75px 0px 40px 0px;
+	background-color: #f9f5f5;
+	min-width: 360px;
+}
+
+.image-content{
+	padding: 0px;
+}
+
+.image img{
+	<!--max-height: 600px;-->
+	margin-bottom: 10px;
+}
+
+.profile{
+	min-width: 360px;
+}
+
+.image-wrapper{
+	min-width: 360px;
+}
+
+.content{
+	padding: 5px;
+	border: 1px solid #c7c7c7;
+	background-color: #fafafa;
+	margin-left: 15px;
+    margin-right: 15px;
+}
+
+.nickname{
+	padding: 0px 10px 0px 10px;
+	border-bottom : 3px solid #c1e1ff;
+}
+
+.nickname h3{
+	text-align: right;
+}
+
+.nickname h3 a{
+	color: black;
+}
+
+.comment-line{
+    border-bottom: 1px solid #000000;
+    margin-bottom: 3px;
+    padding-bottom: 3px;
+
+
+.comment-nickname{
+	
+}

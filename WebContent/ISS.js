@@ -106,3 +106,4 @@ function checkInfo(){
 		return true;
 	}
 }
+

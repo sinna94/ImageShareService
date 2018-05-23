@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-
+<%@ page import="member.MemberBean"%>
+<%@ page import="member.MemberDAO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +22,8 @@
 </head>
 <body>
 <%
-	String id ="";
-	id = (String) session.getAttribute("id");
+	String id = (String) session.getAttribute("id");
+	String nick = (String) session.getAttribute("nick");
 	
 	if(id == null || id.equals("")){
  %>
@@ -56,10 +57,9 @@
 		</div>
 	</div>
 <%
-		} else{
-			response.sendRedirect("account.jsp");
-		}
-	
+	} else{
+		response.sendRedirect("account.jsp?id=" + nick);
+	}
 %>
 </body>
 </html>

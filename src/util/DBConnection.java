@@ -1,4 +1,4 @@
-package jsp.util;
+package util;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;

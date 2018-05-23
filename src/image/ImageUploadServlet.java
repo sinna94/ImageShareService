@@ -1,12 +1,18 @@
 package image;
 
+
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +21,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Feature.Type;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.cloud.vision.v1.ImageSource;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -24,11 +41,16 @@ import util.DBConnection;;
 
 public class ImageUploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static String imageID=null;
+	private static DBConnection db=null;
+			
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
+		
+		db = new DBConnection();
+		
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		
@@ -88,7 +110,6 @@ public class ImageUploadServlet extends HttpServlet {
 				oldFile.delete();
 
 			}
-			DBConnection db = new DBConnection();
 
 			String query = "insert into IIS.Image(user_id, date, path, content) values('" + nick + "', '"
 					+ simDf.format(new Date(currentTime)) + "', '" 
@@ -96,11 +117,79 @@ public class ImageUploadServlet extends HttpServlet {
 									
 			db.noExcuteQuery(query);
 			
+			// 이미지 정보가 저장됐는지 확인
+			// 마지막으로 삽입된 이미지의 아이디 검색
+			ResultSet rs = db.getQueryResult("SELECT LAST_INSERT_ID() as id");
+			
+			if(rs.next()) {
+				imageID = rs.getString("id");
+				String tag = multi.getParameter("tag");
+				String [] tags = tag.split("\\#");
+				
+				for(int i=1;i<tags.length;i++) {
+					addTag(tags[i]);
+				}
+				
+				//구글 클라우드 비젼 api
+				cloudVision(savePath + newFileName);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			out.println("<script> alert('업로드 실패');</script>");
-		} finally {
-			response.sendRedirect("account.jsp?id=" + nick);
+		} 
+		
+		response.sendRedirect("account.jsp?id=" + nick);
+	}
+	
+	private static void addTag(String tag) {
+		
+		try {
+			String query = "insert into IIS.hashtag(hashtag, image_id) values('" + tag + "', '" + imageID + "');";
+			System.out.println(query);
+			db.noExcuteQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static void cloudVision(String path) throws Exception, IOException {
+		  List<AnnotateImageRequest> requests = new ArrayList<>();
+
+		  ByteString imgBytes = ByteString.readFrom(new FileInputStream(path));
+		  Image img = Image.newBuilder().setContent(imgBytes).build();
+		  Feature feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build();
+		  AnnotateImageRequest request =
+		      AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
+		  requests.add(request);
+
+		  try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
+		    BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
+		    List<AnnotateImageResponse> responses = response.getResponsesList();
+
+		    for (AnnotateImageResponse res : responses) {
+		      if (res.hasError()) {
+		    	System.out.printf("Error: %s\n", res.getError().getMessage());
+		        return;
+		      }
+
+		      // For full list of available annotations, see http://g.co/cloud/vision/docs
+ 
+		      for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
+		          annotation.getAllFields().forEach((k, v) -> 
+		          checkDescription(k, v));
+		        }
+		    }
+		  }
+		}
+
+	private static void checkDescription(FieldDescriptor k, Object v) {
+		if(k.getName().equals("description")) {
+			System.out.println(v.toString());
+			addTag(v.toString());
 		}
 	}
+	
+	
 }

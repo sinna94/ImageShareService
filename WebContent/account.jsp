@@ -32,12 +32,19 @@
 
 	if (account == null || account.equals("")) {
 		response.sendRedirect("index.jsp");
+		return;
 	}
 	
 	String nick = (String) request.getParameter("id");
+	String snick = (String) session.getAttribute("nick");
+	
+	if (snick == null || snick.equals("")) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
 	
 	if (nick == null){
-		nick = (String) session.getAttribute("nick");
+		nick = snick;
 	}
 
 	MemberBean member = new MemberBean();
@@ -182,7 +189,7 @@
 						try {
 							rs = db.getQueryResult(query);
 							while(rs.next()) {
-								out.print("<div class='col-xs-4'><a href='picture.jsp?id="+ rs.getInt("id") + "' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
+								out.print("<div class='col-xs-4 col-md-3'><a href='picture.jsp?id="+ rs.getInt("id") + "' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
 							}
 						}catch(Exception e) {
 							e.printStackTrace();

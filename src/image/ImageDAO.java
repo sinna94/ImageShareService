@@ -1,5 +1,6 @@
 package image;
 
+import java.io.File;
 import java.sql.ResultSet;
 
 import util.DBConnection;
@@ -29,5 +30,28 @@ public class ImageDAO {
 		}
 		
 		return image;
+	}
+
+	public void deleteImage(String root, String nickname, String image) {
+		try {
+			DBConnection db = new DBConnection();
+			
+			String query = "select path from IIS.Image where id =" + image + ";";
+			ResultSet rs = db.getQueryResult(query);
+			
+			if(rs.next()) {
+				String path = rs.getString("path");
+				
+				query = "delete from IIS.Image where id = " + image + ";";
+				
+				db.noExcuteQuery(query);
+				
+				File file = new File(root + "upload/" + nickname + "/" + path);
+				file.delete();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 }

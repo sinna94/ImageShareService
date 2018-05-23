@@ -28,29 +28,8 @@ public class ImageDeleteServlet extends HttpServlet {
 		String nickname = (String) session.getAttribute("nick");
 		String root = request.getSession().getServletContext().getRealPath("/");
 		
-		try {
-			DBConnection db = new DBConnection();
-			
-			String query = "select path from IIS.Image where id =" + image + ";";
-			ResultSet rs = db.getQueryResult(query);
-			
-			if(rs.next()) {
-				String path = rs.getString("path");
-				
-				query = "delete from IIS.Image where id = " + image + ";";
-				
-				db.noExcuteQuery(query);
-				
-				File file = new File(root + "upload/" + nickname + "/" + path);
-				file.delete();
-			}
-
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			response.sendRedirect("account.jsp");
-		}
+		new ImageDAO().deleteImage(root, nickname, image);
+		
+		response.sendRedirect("account.jsp");
 	}
 }

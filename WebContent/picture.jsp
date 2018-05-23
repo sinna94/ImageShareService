@@ -108,6 +108,10 @@
 					<%
 						out.print(image.getContent());
 					%>
+					<br>
+					<jsp:include page="getTagServlet">
+						<jsp:param name="id" value="<%=id %>"/>
+					</jsp:include>
 				</div>
 				<div class="comment-wrapper col-xs-12">
 					<jsp:include page="commentServlet">

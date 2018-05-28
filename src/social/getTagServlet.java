@@ -34,9 +34,8 @@ public class getTagServlet extends HttpServlet{
 			
 			if(rs.next()) {
 				do{
-					String tag = rs.getString("hashtag");
 					//out.write("<div class='tag'>");
-					out.write("<a href='search.jsp?keyword=" + tag.split("\\#")[1] + "'>" + tag + " " +"</a>");
+					out.write("<a href='#'>#"+ rs.getString("hashtag") + " " +"</a>");
 					//out.write("</div>");
 				} while (rs.next());
 			} 

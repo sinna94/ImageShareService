@@ -144,7 +144,6 @@ public class ImageUploadServlet extends HttpServlet {
 		
 		try {
 			String query = "insert into IIS.hashtag(hashtag, image_id) values('" + tag + "', '" + imageID + "');";
-			System.out.println(query);
 			db.noExcuteQuery(query);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -185,7 +184,6 @@ public class ImageUploadServlet extends HttpServlet {
 
 	private static void checkDescription(FieldDescriptor k, Object v) {
 		if(k.getName().equals("description")) {
-			System.out.println(v.toString());
 			addTag(v.toString());
 		}
 	}	

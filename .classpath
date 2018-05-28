@@ -50,5 +50,6 @@
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_131/lib/ext/proto-google-common-protos-1.11.0.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_131/lib/ext/proto-google-iam-v1-0.12.0.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_131/lib/ext/threetenbp-1.3.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/imageShare-b3f8c6bc4bbc.json"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

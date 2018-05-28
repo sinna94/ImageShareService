@@ -2,10 +2,10 @@ package image;
 
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +29,7 @@ import com.google.cloud.vision.v1.Feature;
 import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.cloud.vision.v1.ImageSource;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.oreilly.servlet.MultipartRequest;
@@ -188,5 +189,7 @@ public class ImageUploadServlet extends HttpServlet {
 			System.out.println(v.toString());
 			addTag(v.toString());
 		}
-	}	
+	}
+	
+	
 }

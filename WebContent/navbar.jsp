@@ -5,6 +5,8 @@
 <script src="ISS_search.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="ISS_search.css?ver=1">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -26,9 +28,9 @@
 				<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
 				<li><a href="#">Link</a></li>
 			</ul>
-			<form class="navbar-form navbar-left" role="search">
+			<form class="navbar-form navbar-left" role="search" method="get" action="search.jsp">
 				<div class="form-group ui-widget">
-					<input id="searchbar" type="text" class="form-control" onkeyup="search();" placeholder="검색어">
+					<input id="searchbar" name="keyword" type="text" class="form-control" onkeyup="search();" placeholder="검색어">
 				</div>
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>

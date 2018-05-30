@@ -35,22 +35,10 @@
 		return;
 	}
 	
-	String nick = (String) request.getParameter("id");
-	String snick = (String) session.getAttribute("nick");
-	
-	if (snick == null || snick.equals("")) {
-		response.sendRedirect("index.jsp");
-		return;
-	}
-	
-	if (nick == null){
-		nick = snick;
-	}
-
 	String keyword = (String) request.getParameter("keyword");
 %>
 
-<title><%=nick %></title>
+<title><%=keyword %> 검색 내용</title>
 
 </head>
 <body>
@@ -67,12 +55,12 @@
 						DBConnection db = new DBConnection();
 						
 						ResultSet rs;
-						String query = "Select id, path from Image, IIS.hashtag Where hashtag = '" +  keyword + "' and image_id = id order by id desc;";
+						String query = "Select id, path, user_id from Image, IIS.hashtag Where hashtag = '" +  keyword + "' and image_id = id order by id desc;";
 						
 						try {
 							rs = db.getQueryResult(query);
 							while(rs.next()) {
-								out.print("<div class='col-xs-4 col-md-3'><a href='picture.jsp?id="+ rs.getInt("id") + "' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
+								out.print("<div class='col-xs-4 col-md-3'><a href='picture.jsp?id="+ rs.getInt("id") + "' class='thumbnail'> <img src='upload/" + rs.getString("user_id") + "/" +rs.getString("path") + "' alt='사진'></a></div>");
 							}
 						}catch(Exception e) {
 							e.printStackTrace();

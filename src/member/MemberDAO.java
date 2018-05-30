@@ -1,5 +1,6 @@
 package member;
 
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -134,6 +135,25 @@ public class MemberDAO {
 		
 		try {
 			db.noExcuteQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getUserInfo(String nickname, PrintWriter pw) {
+		DBConnection db = new DBConnection();
+		
+		String query = "select nickname, Email from Users where nickname = '" + nickname + "';";
+	
+		try {
+			ResultSet rs = db.getQueryResult(query);
+		
+			if(rs.next()) {
+				pw.println("<input type='email' id='email' name='email' oninput='checkEmail();' class='form-control' value='" + rs.getString("Email") + "' required autofocus>");
+				pw.println("<input type='password' id='password' name='password' class='form-control' required>");
+				pw.println("<input type='password' id='passwordc' name='passwordCheck' oninput='checkPassword();' class='form-control' placeholder='비밀번호 확인' required>");
+				pw.println("<input type='text' id='nickname' name='nickname' class='form-control' oninput='checkNickname();' value='" + rs.getString("nickname") + "' required>");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

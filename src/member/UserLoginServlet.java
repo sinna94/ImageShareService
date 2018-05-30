@@ -22,7 +22,6 @@ public class UserLoginServlet extends HttpServlet{
 		String password = request.getParameter("password");
 		
 		String result = new MemberDAO().login(email, password);
-		System.out.println(result);
 		PrintWriter out = response.getWriter();
 		
 		if(result != "") {

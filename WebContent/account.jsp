@@ -26,6 +26,9 @@
 
 <link rel="stylesheet" href="ISS_private_page.css">
 <script src="ISS_private_page.js"></script>
+<link rel="stylesheet" href="ISS.css">
+<script src="ISS.js"></script>
+
 
 <%
 	String account = (String) session.getAttribute("id");
@@ -70,7 +73,7 @@
 				<div class="jumbotron profile">
 					<div class="row">
 						<!-- profile image -->
-						<div class="col-xs-5 col-md-5">
+						<div class="col-xs-5">
 							<%
 									if (member.getImage() == null) {
 								%>
@@ -87,64 +90,119 @@
 							%>
 						</div>
 						<!-- profile intro -->
-						<div class="col-xs-6 col-md-6">
-							<div id="profile">
-								<%
-									String nickname = member.getNickname();
-									out.print("<h2 id='profile-nick'>" + nickname + "</h2>");
-									String intro = member.getIntro();
-									if (intro == null) {
-										out.print("<p id='profile-intro'>" + nickname + " 입니다." + "</p>");
-									} else {
-										out.print("<p id='profile-intro'>" + member.getIntro() + "</p>");
-									}
-								%>
-							</div>
-						</div>
-						
-						<%
-							if (session.getAttribute("nick").equals(nick)){
-						%>
-						<div class="col-xs-2 col-xs-offset-2 col-md-2 col-md-offset-4">
-							<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#upload">
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-								Upload
-							</button>
-						</div>
-						<!-- upload modal -->
-						<div class="modal fade" id="upload" tabindex="-1" role="dialog"
-							aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-										<h4 class="modal-title" id="myModalLabel">이미지 업로드</h4>
+						<div class="col-xs-7">
+							<div class="row">
+								<div class="col-xs-12">
+									<div id="profile">
+									<%
+										String nickname = member.getNickname();
+										out.print("<h2 id='profile-nick'>" + nickname + "</h2>");
+										String intro = member.getIntro();
+										if (intro == null) {
+											out.print("<p id='profile-intro'>" + nickname + " 입니다." + "</p>");
+										} else {
+											out.print("<p id='profile-intro'>" + member.getIntro() + "</p>");
+										}
+									%>
 									</div>
-									<form action="ImageUploadServlet" method="post"	enctype="multipart/form-data">
-										<div class="modal-body">
-											<div class="row">
-												<div class="col-xs-12">
-													<input class="form-control" type="file" id="file" accept="image/*" name="filename" required/>
-												</div>
-												<div class="col-xs-12">
-													<textarea id="content" class="form-control" rows="10" name="content" placeholder="내용 입력"></textarea>											
-												</div>
-												<div class="col-xs-12">
-													<input type="text" id='tag' class="form-control" name="tag" placeholder="ex)#tag#abc">
-												</div>
-											</div>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-											<button class="btn btn-primary" type="submit"> 등록 </button>
-										</div>
+								</div>
+									<%
+										if (!session.getAttribute("nick").equals(nick)){
+									%>
+								<div class="col-xs-3">
+									<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#upload">
+										<jsp:include page="getFollowServlet">
+											<jsp:param name="id" value="<%=nick %>"/>
+										</jsp:include>	
+										
+											Follow
+									</button>
+								</div>
+								<%
+									}
+									else{
+								%>
+								<div class="col-xs-3">
+									<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#upload">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+										Upload
+									</button>
+								</div>
+								<div class="col-xs-3">
+									<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#edit">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+										Edit
+									</button>
+								</div>
+								<div class="col-xs-3">
+									<form action="UserLogoutServlet" method="POST">
+										<button type="submit" class="btn btn-defalut" >
+											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+											Logout
+										</button>
 									</form>
 								</div>
+								<!-- upload modal -->
+								<div class="modal fade" id="upload" tabindex="-1" role="dialog"	aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel">이미지 업로드</h4>
+											</div>
+											<form action="ImageUploadServlet" method="post"	enctype="multipart/form-data">
+												<div class="modal-body">
+													<div class="row">
+														<div class="col-xs-12">
+															<input class="form-control" type="file" id="file" accept="image/*" name="filename" required/>
+														</div>
+														<div class="col-xs-12">
+															<textarea id="content" class="form-control" rows="10" name="content" placeholder="내용 입력"></textarea>											
+														</div>
+														<div class="col-xs-12">
+															<input type="text" id='tag' class="form-control" name="tag" placeholder="ex)#tag#abc">
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+													<button class="btn btn-primary" type="submit"> 등록 </button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								
+								<div class="modal fade" id="edit" tabindex="-1" role="dialog"	aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel">정보 수정</h4>
+											</div>
+											<form action="ImageUploadServlet" method="post"	enctype="multipart/form-data">
+												<div class="modal-body">
+													<jsp:include page="GetUserInfoServlet"/>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default">회원 탈퇴</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+													<button class="btn btn-primary" type="submit"> 등록 </button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<%} %>
 							</div>
+							
 						</div>
-						<%} %>
+						
+						
 					</div>
 				</div>
 				<!-- image  -->

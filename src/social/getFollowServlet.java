@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import util.DBConnection;
 
-@WebServlet("/likeServlet")
+@WebServlet("/getFollowServlet")
 
-public class likeServlet extends HttpServlet{
+public class getFollowServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -25,12 +25,12 @@ public class likeServlet extends HttpServlet{
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
 		
-		String id = (String) request.getParameter("id");
+		String otherNickname = (String) request.getParameter("id");
 		String nickname = (String) session.getAttribute("nick");
 		
 		DBConnection db = new DBConnection();
 		
-		String query = "select * from IIS.like where image_id = '" + id + "' and user_id = '" + nickname + "';";
+		String query = "select * from follow where user_id = '" + otherNickname + "' and follower_id = '" + nickname + "';";
 		
 		try {
 			ResultSet rs = db.getQueryResult(query);
@@ -38,14 +38,11 @@ public class likeServlet extends HttpServlet{
 			out.write("<a href='javascript:void(0);' onclick='clickLike();'>");
 			//누른 상태
 			if (rs.next()) {
-				query = "UPDATE IIS.Image SET like_cnt = like_cnt + 1 WHERE id = " + id + ";";
-				out.write(" <span id='like' class='glyphicon glyphicon glyphicon-heart' aria-hidden='true' style='color:#d45a40'></span>");	
+				out.write(" <span class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#d45a40'></span>");	
 			} else {
-				query = "UPDATE IIS.Image SET like_cnt = like_cnt - 1 WHERE id = " + id + ";";
-				out.write(" <span id='like' class='glyphicon glyphicon glyphicon-heart' aria-hidden='true' style='color:#212020' ></span>");
+				out.write(" <span class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#212020'></span>");
 			}
 			out.write("</a>");
-			db.noExcuteQuery(query);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

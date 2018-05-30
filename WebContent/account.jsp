@@ -110,11 +110,10 @@
 										if (!session.getAttribute("nick").equals(nick)){
 									%>
 								<div class="col-xs-3">
-									<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#upload">
+									<button type="button" class="btn btn-defalut" onclick="clickFollow();">
 										<jsp:include page="getFollowServlet">
 											<jsp:param name="id" value="<%=nick %>"/>
 										</jsp:include>	
-										
 											Follow
 									</button>
 								</div>

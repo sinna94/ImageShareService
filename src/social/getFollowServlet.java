@@ -35,14 +35,12 @@ public class getFollowServlet extends HttpServlet{
 		try {
 			ResultSet rs = db.getQueryResult(query);
 			
-			out.write("<a href='javascript:void(0);' onclick='clickLike();'>");
 			//누른 상태
 			if (rs.next()) {
-				out.write(" <span class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#d45a40'></span>");	
+				out.write(" <span id='follow' class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#d45a40'></span>");	
 			} else {
-				out.write(" <span class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#212020'></span>");
+				out.write(" <span id='follow' class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#212020'></span>");
 			}
-			out.write("</a>");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

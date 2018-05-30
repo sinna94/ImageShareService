@@ -38,14 +38,11 @@ public class likeServlet extends HttpServlet{
 			out.write("<a href='javascript:void(0);' onclick='clickLike();'>");
 			//누른 상태
 			if (rs.next()) {
-				query = "UPDATE IIS.Image SET like_cnt = like_cnt + 1 WHERE id = " + id + ";";
 				out.write(" <span id='like' class='glyphicon glyphicon glyphicon-heart' aria-hidden='true' style='color:#d45a40'></span>");	
 			} else {
-				query = "UPDATE IIS.Image SET like_cnt = like_cnt - 1 WHERE id = " + id + ";";
 				out.write(" <span id='like' class='glyphicon glyphicon glyphicon-heart' aria-hidden='true' style='color:#212020' ></span>");
 			}
 			out.write("</a>");
-			db.noExcuteQuery(query);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

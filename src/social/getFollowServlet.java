@@ -37,9 +37,9 @@ public class getFollowServlet extends HttpServlet{
 			
 			//누른 상태
 			if (rs.next()) {
-				out.write(" <span id='follow' class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#d45a40'></span>");	
+				out.write(" <span id='follow' class='glyphicon glyphicon-ok' aria-hidden='true' style='color:#d45a40'></span>");	
 			} else {
-				out.write(" <span id='follow' class='glyphicon glyphicon-plus' aria-hidden='true' style='color:#212020'></span>");
+				out.write(" <span id='follow' class='glyphicon glyphicon-ok' aria-hidden='true' style='color:#212020'></span>");
 			}
 			
 		} catch (SQLException e) {

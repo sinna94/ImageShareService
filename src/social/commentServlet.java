@@ -36,7 +36,7 @@ public class commentServlet extends HttpServlet{
 				do{
 					out.write("<div class='row comment-line'>");
 					out.write("<div class='col-xs-3 comment-nickname'>" + rs.getString("nickname") + "</div>");
-					out.write("<div class='col-xs-7 comment'>" + rs.getString("comment") + "</div>");
+					out.write("<div class='col-xs-6 comment'>" + rs.getString("comment") + "</div>");
 					out.write("<div class='col-xs-2 date'>" + rs.getString("date") + "</div>");
 					out.write("</div>");
 				} while (rs.next());

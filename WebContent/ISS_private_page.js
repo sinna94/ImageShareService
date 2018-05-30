@@ -17,3 +17,11 @@ function clickFollow(){
 		}
 	})
 }
+
+$('#tab a').click(function (e) {
+	  e.preventDefault()
+	  $(this).tab('show')
+	})
+
+$('#tab a[href="#image-tab"]').tab('show')
+$('#tab a[href="#album-tab"]').tab('show')

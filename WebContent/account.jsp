@@ -1,3 +1,4 @@
+<%@page import="java.sql.SQLException"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page import="member.MemberBean"%>
@@ -109,6 +110,7 @@
 									<%
 										if (!session.getAttribute("nick").equals(nick)){
 									%>
+								<!--follow button -->
 								<div class="col-xs-3">
 									<button type="button" class="btn btn-defalut" onclick="clickFollow();">
 										<jsp:include page="getFollowServlet">
@@ -121,22 +123,26 @@
 									}
 									else{
 								%>
-								<div class="col-xs-3">
+								<!-- upload button -->
+								<div class="btn-group" role="group">
 									<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#upload">
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+										<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
 										Upload
 									</button>
-								</div>
-								<div class="col-xs-3">
+								<!-- edit button -->
 									<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#edit">
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+										<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 										Edit
 									</button>
-								</div>
-								<div class="col-xs-3">
-									<form action="UserLogoutServlet" method="POST">
-										<button type="submit" class="btn btn-defalut" >
-											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								<!-- album button -->
+									<button type="button" class="btn btn-defalut" data-toggle="modal" data-target="#album">
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+										album
+									</button>
+								<!-- logout button -->
+									<form action="" method="GET">
+										<button type="submit" class="btn btn-defalut" onclick="UserLogoutServlet" >
+											<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
 											Logout
 										</button>
 									</form>
@@ -173,7 +179,7 @@
 										</div>
 									</div>
 								</div>
-								
+								<!-- edit modal -->
 								<div class="modal fade" id="edit" tabindex="-1" role="dialog"	aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -183,7 +189,7 @@
 												</button>
 												<h4 class="modal-title" id="myModalLabel">정보 수정</h4>
 											</div>
-											<form action="ImageUploadServlet" method="post"	enctype="multipart/form-data">
+											<form action="ImageUploadServlet" method="post">
 												<div class="modal-body">
 													<jsp:include page="GetUserInfoServlet"/>
 												</div>
@@ -196,34 +202,96 @@
 										</div>
 									</div>
 								</div>
+								<!-- album modal -->
+								<div class="modal fade" id="album" tabindex="-1" role="dialog"	aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel">앨범 추가</h4>
+											</div>
+											<form action="ImageUploadServlet" method="post">
+												<input type="text" name="name" class="form-control" placeholder="앨범 이름">
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+													<button class="btn btn-primary" type="submit"> 등록 </button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
 								<%} %>
 							</div>
-							
 						</div>
-						
-						
 					</div>
 				</div>
-				<!-- image  -->
-				<div class="image-wrapper row">
-					
-					<%
-						DBConnection db = new DBConnection();
-						
-						ResultSet rs;
-						String query = "Select id, path from Image Where user_id = '" +  nick + "' order by id desc;";
-						
-						try {
-							rs = db.getQueryResult(query);
-							while(rs.next()) {
-								out.print("<div class='col-xs-4 col-md-3'><a href='picture.jsp?id="+ rs.getInt("id") + "' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
-							}
-						}catch(Exception e) {
-							e.printStackTrace();
-						}
 				
-					%>
+				<!-- tab pannel -->
+				<div role="tabpanel">
+				
+				<!-- Nav tabs -->
+					<ul class="nav nav-tabs nav-justified" id="tab" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#image-tab" aria-controls="image-tab" role="tab" data-toggle="tab">사진</a>
+						</li>
+						<li role="presentation">
+							<a href="#album-tab" aria-controls="album-tab" role="tab" data-toggle="tab">앨범</a>
+						</li>
+					</ul>
 					
+				<!-- Tab panes -->
+					<div class="tab-content">
+				<!-- image tab  -->
+						<div role="tabpanel" class="image-wrapper row tab-pane active" id="image-tab">
+						
+						<%
+							DBConnection db = new DBConnection();
+							
+							ResultSet rs;
+							String query = "Select id, path from Image Where user_id = '" +  nick + "' order by id desc;";
+							
+							try {
+								rs = db.getQueryResult(query);
+								while(rs.next()) {
+									out.print("<div class='col-xs-4 col-md-3'><a href='picture.jsp?id="+ rs.getInt("id") + "' class='thumbnail'> <img src='upload/" + nick + "/" +rs.getString("path") + "' alt='사진'></a></div>");
+								}
+							}catch(Exception e) {
+								e.printStackTrace();
+							}
+					
+						%>
+						</div>
+				<!-- album tab -->
+						<div role="tabpanel" class="album-wrapper row tab-pane" id="album-tab">
+						<%
+							query="select * from Album where user_id ='" + snick + "';";
+							int i=0;
+							try{
+								rs = db.getQueryResult(query);
+								if(rs.next()){
+									out.print("<table class='table table-striped'>");
+									do{
+										String name = rs.getString("name");
+										if(name == null){
+											name = String.valueOf(++i);
+										}
+										out.print("<tr>");
+										out.print("<td>"+ name +"</td>");
+										out.print("</tr>");									
+										
+									}while(rs.next());
+									out.print("</table>");
+								} else{
+									out.print("<h3>앨범이 없습니다.</h3>");
+								}
+							}catch(SQLException e){
+								e.printStackTrace();
+							}
+						%>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

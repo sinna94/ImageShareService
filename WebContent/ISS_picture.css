@@ -29,6 +29,7 @@ body {
 	background-color: #fafafa;
 	margin-left: 15px;
     margin-right: 15px;
+    max-width: 800px;
 }
 
 .nickname{

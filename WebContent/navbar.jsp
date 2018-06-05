@@ -19,14 +19,14 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="account.jsp">Home</a>
+			<a class="navbar-brand" href="home.jsp">Home</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="#">Link <span class="sr-only">(current)</span></a></li>
-				<li><a href="#">Link</a></li>
+				<li><a href="feed.jsp">Feed <span class="sr-only">(current)</span></a></li>
+				<li><a href="account.jsp">Account</a></li>
 			</ul>
 			<form class="navbar-form navbar-left" role="search" method="get" action="search.jsp">
 				<div class="form-group ui-widget">

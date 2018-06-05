@@ -19,13 +19,13 @@ public class DBConnection {
 		String id ="chung";
 		String password = "dhaygks0229";
 		
-		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, id, password);
 		}catch (ClassNotFoundException e){
 			System.out.println("Driver not found.");
 		} catch (SQLException e){
+			e.printStackTrace();
 			System.out.println("Connection failed.");
 		}
 		return con;

@@ -2,6 +2,9 @@
     pageEncoding="utf-8"%>
 <%@ page import="image.ImageDAO" %>
 <%@ page import="image.ImageDTO" %>
+<%@ page import="util.DBConnection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.ResultSet"%>
 
 <!DOCTYPE html>
 <html>
@@ -22,9 +25,11 @@
 <%
 	String account = (String) session.getAttribute("id");
 	String id = (String) request.getParameter("id");
+	String snick = (String) session.getAttribute("nick");
 	
-	if (account == null || account.equals("")) {
+	if (account == null || account.equals("") || snick ==null) {
 		response.sendRedirect("index.jsp");
+		return;
 	}
 	else if (id == null || Integer.parseInt(id) < 0){
 		response.sendRedirect("account.jsp");
@@ -39,7 +44,7 @@
 	<jsp:include page="navbar.jsp"/>
 
 	<div class="container">
-			<div class="row">
+			<div class="row image-content">
 				<div class="col-xs-12 image-content">
 					<% 
 						ImageDTO image = new ImageDAO().getImage(id); 
@@ -49,7 +54,7 @@
 				</div>
 			</div>
 			<div class="row">
-			<div class="content">
+			<div class="content row-content">
 				<div class="row">
 					<div class="like-wrapper col-xs-1">
 						<jsp:include page="likeServlet">
@@ -64,17 +69,15 @@
 						
 						<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
 						<%
-							if(session.getAttribute("nick").equals(image.getUser_id())){
+							if(snick.equals(image.getUser_id())){
 						%>
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="SetProfileImageServlet?id=<%=image.getPath() %>">프로필 사진으로 지정</a></li>
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="ImageDeleteServlet?id=<%=id %>">사진 삭제</a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">앨범으로 추가</a></li>
 						<%
 							}
 						%>
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">다운로드</a></li>
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">공유하기</a></li>
-						
 						</ul>
 					</div>
 				</div>
@@ -86,7 +89,8 @@
 				</div>
 				<div class="board col-xs-12">
 					<%
-						out.print(image.getContent());
+						if(image.getContent() != null)
+							out.print(image.getContent());
 					%>
 					<br>
 					<jsp:include page="getTagServlet">

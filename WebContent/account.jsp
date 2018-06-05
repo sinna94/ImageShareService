@@ -32,6 +32,7 @@
 
 
 <%
+
 	String account = (String) session.getAttribute("id");
 
 	if (account == null || account.equals("")) {
@@ -140,8 +141,8 @@
 										album
 									</button>
 								<!-- logout button -->
-									<form action="" method="GET">
-										<button type="submit" class="btn btn-defalut" onclick="UserLogoutServlet" >
+									<form action="./UserLogoutServlet" method="GET">
+										<button type="submit" class="btn btn-defalut">
 											<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
 											Logout
 										</button>
@@ -212,11 +213,13 @@
 												</button>
 												<h4 class="modal-title" id="myModalLabel">앨범 추가</h4>
 											</div>
-											<form action="ImageUploadServlet" method="post">
-												<input type="text" name="name" class="form-control" placeholder="앨범 이름">
+											<form action="AlbumUploadServlet" method="post" enctype="multipart/form-data">
+												<input type="text" id="album-name" name="name" class="form-control" placeholder="앨범 이름">
+												<input class="form-control" type="file" id="files" accept="image/*" name="filename" multiple required/>
+														
 												<div class="modal-footer">
 													<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-													<button class="btn btn-primary" type="submit"> 등록 </button>
+													<button class="btn btn-primary"> 등록 </button>
 												</div>
 											</form>
 										</div>
@@ -271,18 +274,16 @@
 							try{
 								rs = db.getQueryResult(query);
 								if(rs.next()){
-									out.print("<table class='table table-striped'>");
+									out.print("<div class='row'>");
 									do{
 										String name = rs.getString("name");
 										if(name == null){
-											name = String.valueOf(++i);
+											name = snick + "의 앨범 " + String.valueOf(++i);
 										}
-										out.print("<tr>");
-										out.print("<td>"+ name +"</td>");
-										out.print("</tr>");									
+										out.print("<div class='col-xs-4'><a href='albumview.jsp?id=" + rs.getString("id") + "'>" + name +"</a></div>");
 										
 									}while(rs.next());
-									out.print("</table>");
+									out.print("</div>");	
 								} else{
 									out.print("<h3>앨범이 없습니다.</h3>");
 								}

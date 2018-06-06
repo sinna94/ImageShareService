@@ -44,16 +44,13 @@
 	<jsp:include page="navbar.jsp"/>
 
 	<div class="container">
-			<div class="row image-content">
-				<div class="col-xs-12 image-content">
+			<div class="image-content">
 					<% 
 						ImageDTO image = new ImageDAO().getImage(id); 
 							
-						out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' class='img-responsive' alt='사진'>");
+						out.print("<img src='upload/" + image.getUser_id() + "/" + image.getPath() + "' class='img-responsive center-block' alt='사진'>");
 					%>
-				</div>
 			</div>
-			<div class="row">
 			<div class="content row-content">
 				<div class="row">
 					<div class="like-wrapper col-xs-1">
@@ -116,7 +113,7 @@
 					</form>
 				</div>
 			</div>
-		</div>
+		
 	</div>
 </body>
 </html>

@@ -277,9 +277,6 @@
 									out.print("<div class='row'>");
 									do{
 										String name = rs.getString("name");
-										if(name == null){
-											name = snick + "의 앨범 " + String.valueOf(++i);
-										}
 										out.print("<div class='col-xs-4'><a href='albumview.jsp?id=" + rs.getString("id") + "'>" + name +"</a></div>");
 										
 									}while(rs.next());

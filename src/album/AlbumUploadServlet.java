@@ -68,7 +68,6 @@ public class AlbumUploadServlet extends HttpServlet {
 	private void insertImage(HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("/");
 		String savePath = root + "upload/" + nick + "/";
-		
 		File desti = new File(savePath);
 		
 		if(!desti.exists()) {
@@ -80,6 +79,7 @@ public class AlbumUploadServlet extends HttpServlet {
 		File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
 		factory.setRepository(repository);
 		ServletFileUpload upload = new ServletFileUpload(factory);
+		upload.setHeaderEncoding("utf-8");
 		
 		try {
 		List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
@@ -87,14 +87,12 @@ public class AlbumUploadServlet extends HttpServlet {
 		Iterator<FileItem> iter = items.iterator();
 		while(iter.hasNext()) {
 			FileItem fileItem = (FileItem) iter.next();
-			String fieldName= fileItem.getFieldName();
 			String fileName = fileItem.getName();
 			
-			if(fieldName.equals("name")) {
-				makeAlbum(fileName);
+			if(fileItem.isFormField()) {
+				makeAlbum(fileItem.getString("utf-8"));
 			}
-			
-			if(fileItem.getSize() > 0) {
+			else {
 				
 				long currentTime = System.currentTimeMillis();
 				SimpleDateFormat simDf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -121,8 +119,7 @@ public class AlbumUploadServlet extends HttpServlet {
 					cloudVision(savePath + newFileName);
 					AddImageToAlbum(imageID);
 				}
-				
-				
+			
 			}
 		}
 		
@@ -132,12 +129,11 @@ public class AlbumUploadServlet extends HttpServlet {
 	}
 
 	private void AddImageToAlbum(String imageID) throws SQLException {
-		String query = "insert into IIS.Album_image(id, image_id, order) values ('" + albumId + "', '" + imageID + "', " + ++imageOrder + ");";
+		String query = "insert into IIS.Album_image(album_id, image_id, Album_image.order) values (" + albumId + ", " + imageID + ", " + ++imageOrder + ");";
 		db.noExcuteQuery(query);
 	}
 
-	private void makeAlbum(String name) {		
-		System.out.println(name);
+	private void makeAlbum(String name) {	
 		if(name == null || name.equals("")) {
 			name = nick + "ÀÇ ¾Ù¹ü";
 		}
@@ -158,7 +154,7 @@ public class AlbumUploadServlet extends HttpServlet {
 	private static void addTag(String tag) {
 		
 		try {
-			String query = "insert into IIS.hashtag(hashtag, image_id) values('" + tag + "', '" + imageID + ");";
+			String query = "insert into IIS.hashtag(hashtag, image_id) values('" + tag + "', '" + imageID + "');";
 			db.noExcuteQuery(query);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

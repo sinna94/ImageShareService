@@ -73,7 +73,7 @@
 						<%
 							}
 						%>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">다운로드</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="ImageDownloadServlet?id=<%=id%>">다운로드</a></li>
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">공유하기</a></li>
 						</ul>
 					</div>
